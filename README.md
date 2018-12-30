@@ -1,2 +1,2 @@
-# visualization_by_echo_state_network
+# Visualization by echo state network
 time series visualization by echo state network

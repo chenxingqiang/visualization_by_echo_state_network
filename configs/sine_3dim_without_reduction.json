@@ -1,0 +1,29 @@
+{
+  "regression_method": "ridge",
+  "embedding": "identity",
+  "n_internal_units": 3,
+  "n_time_series": 80,
+  "time_series_name": "sine",
+  "signs_of_input_weights": [
+    -1.0, 1.0, -1.0
+  ],
+  "ulist": [
+    0.5
+  ],
+  "vlist": [
+    0.9
+  ],
+  "spectral_radius": 0.9,
+  "connectivity": 0.5,
+  "input_scaling": 0.5,
+  "input_shift": 0.0,
+  "teacher_scaling": 0.5,
+  "teacher_shift": 0.0,
+  "noise_level": 0.01,
+  "regression_parameters": 0.001,
+  "n_drop": 0,
+  "embedding_parameters": null,
+  "n_dim": null,
+  "dim_latent_space": 3,
+  "reduction_method": "without_reduction"
+}
