@@ -16,7 +16,7 @@ the data projection of a time series is implemented by
 the readout weight vector itself.
 The second method is mentioned in [[1]].
 We do not implement ESN-coupled autoencoder,
-but standard autoencoder only.
+but only standard autoencoder.
 
 ## Requirements
 * numpy==1.15.4
@@ -29,23 +29,23 @@ but standard autoencoder only.
 ## Usage
 First, we generate sample data sets.
 For the sine data case, we run the python script
-at the directory data/sine_data.
+in the directory data/sine_data.
 ```console
 $ python sine.py
 ```
 For the disturbed sine data, we generate the data in the same way.
-We write the shell script file "run.sh" to the path of data directory,
-config file, and result directory as follows.
+We write the path of data directory, config file, and result directory
+in the following way on the shell script file "run.sh".
 
 ```console
-DATADIR = data/sine_data
-CONFIGFILE = configs/sine_config.json
-RESULTDIR = result
+DATADIR=data/sine_data
+CONFIGFILE=configs/sine_config/sine_2dim_without_reduction.json
+RESULTDIR=result
 ```
-To run our visualization program, excute the "run.sh" script.
+To start our visualization program, excute the "run.sh" script.
 
 ```console
-$ run.sh
+$ ./run.sh
 ```
 
 ## Config file contents
