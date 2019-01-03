@@ -5,16 +5,17 @@ The echo state network architecture in [[1]] is
 "Simple Cycle Reservoir" in [[2]].
 Our code implementation of echo state network is based on [[3]].
 In [[1]], the visualization is implemented by combining
-echo state network and dimensionality reduction method.
+echo state network and dimension reduction method.
 We implemented visualization by the following 2 ways.
 
-1. Only echo state network
-2. Echo state netwrok and standard autoencoder
+1. Echo state network without dimension reduction
+2. Echo state netwrok with standard autoencoder
 
-The first method "Only echo state network" means that
-the data projection of a time series is implemented by
+The first method "Echo state network without dimension reduction"
+means that the data projection of a time series is implemented by
 the readout weight vector itself.
 The second method is mentioned in [[1]].
+"ESN" means "Echo State Network" in this repository.
 We do not implement ESN-coupled autoencoder,
 but only standard autoencoder.
 
@@ -49,8 +50,31 @@ $ ./run.sh
 ```
 
 ## Config file contents
-The config file is described in .json file format.
-We describe the following items in the config file.
+The directory configs/ contains config files.
+Config files are described in .json file format.
+We describe the following items in a config file.
+
+|Name of the item       |Meaning of the item                                   |
+|:----                  |:----	                                               |
+|n_internal_units       |number of internal units for ESN                      |
+|n_time_series          |number of time series in a data set                   |
+|signs_of_input_weights |signs of the vector components of input weight for ESN|
+|ulist 			|list of absolute values of input weights for ESN      |
+|vlist 			|list of absolute values of internal weights for ESN   |
+|reduction_method 	|name of reduction method    	       		       |
+|dim_latent_space 	|number of units of hidden layer for autoencoder       |
+
+### Note
+* "n_time_series" means the number of .dat file in a data set directory.
+In the case of sine function value data, "n_time_series" is 80.
+* "signs_of_input_weights" is specified by a vector whose all components
+have absolute value 1.0.
+* Visualization needs a fixed pair (u, v) for a data set.
+ Our program will find the optimal pair (u, v) among "ulist" and "vlist".
+* If we use "ESN without dimension reduction" method for the visualization,
+set "reduction_method" to "without_reduction".
+If we use "ESN with standard autoencoder" method, set "reduction_method"
+to "standard_AE".
 
 ## Datasets
 This repository contains the following sample data.
@@ -67,7 +91,23 @@ the target data for our echo state network.
 The second data set contains disturbed data of the first ones.
 
 ## Results for the two data sets
+We show the results of visualization of the two data sets
+for "Echo state network without dimension reduction" method.
 
+### sine function value data set
+1. readout weight vector dimension 1
+When the dimension of the readout weight vector is 1,
+we have the 3 clusters as in the following figure.
+
+Each cluster corresponds to some starting angle of
+the sine function.
+
+2. readout weight vector dimension 2
+
+### disturbed sine function value data set
+1. readout weight vector dimension 1
+
+2. readout weight vector dimension 2
 
 ## References
 [[1]] N. Gianniotis, S. D. Kugler, P. Tino, K. L. Polsterer,
