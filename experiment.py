@@ -4,7 +4,6 @@ import logging
 import numpy as np
 import os
 import cyclic_esn
-import autoencoder as ae
 
 #.. Initialize logger
 logger = logging.getLogger(__name__)
@@ -182,11 +181,12 @@ def main():
     dim_latent_space = config['dim_latent_space']
     reduction_method = config['reduction_method']
     if reduction_method == 'standard_AE':
+        import autoencoder as ae
         print('---- Dimension reduction by standard autoencoder ----')
-        print()
         reduced_weights = ae.standard_AE(readout_weights, dim_latent_space)
         plot_weights(reduced_weights.T)
     elif reduction_method == 'without_reduction':
+        print('---- No dimension reduction ----')
         plot_weights(readout_weights)
     else:
         print('Dimension reduction method is not specified:')
@@ -194,6 +194,7 @@ def main():
 
     print()
     print('The calculation is successfully completed.')
+    print()
 
 if __name__ == "__main__":
     main()
