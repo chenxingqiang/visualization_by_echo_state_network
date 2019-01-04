@@ -1,14 +1,8 @@
 import numpy as np
 
-from scipy import sparse
-from scipy.io import loadmat
-from scipy.sparse import linalg as slinalg
-
-from sklearn.decomposition import KernelPCA, PCA
-from sklearn.linear_model import ElasticNet, Lasso, Ridge, LinearRegression
+from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
-from sklearn.svm import NuSVR
 
 def NRMSE(y_true, y_pred):
     """ Normalized Root Mean Squared Error """
@@ -17,13 +11,12 @@ def NRMSE(y_true, y_pred):
     return np.sqrt(mean_squared_error(y_true, y_pred))/y_std
 
 class ESN(object):
-    def __init__(self, n_internal_units = 100, spectral_radius = 0.9,
+    def __init__(self, n_internal_units = 100,
                  connectivity = 0.5, input_scaling = 0.5, input_shift = 0.0,
                  teacher_scaling = 0.5, teacher_shift = 0.0,
                  noise_level = 0.01, u = 0.9, v = 0.5, sign_vector = None):
         # Initialize attributes
         self._n_internal_units = n_internal_units
-        self._spectral_radius = spectral_radius
         self._connectivity = connectivity
 
         self._input_scaling = input_scaling
@@ -76,51 +69,11 @@ class ESN(object):
             self._initialize_internal_weights(v)
 
         # Initialize regression method
-        if (regression_method == 'nusvr'):
-            # NuSVR, RBF kernel
-            C, nu, gamma = regression_parameters
-            self._regression_method = NuSVR(C = C, nu = nu, gamma = gamma)
-
-        elif (regression_method == 'linsvr'):
-            # NuSVR, linear kernel
-            C = regression_parameters[0]
-            nu = regression_parameters[1]
-
-            self._regression_method = NuSVR(C = C, nu = nu, kernel='linear')
-
-        elif (regression_method == 'enet'):
-            # Elastic net
-            alpha, l1_ratio = regression_parameters
-            self._regression_method = ElasticNet(alpha = alpha, l1_ratio = l1_ratio)
-
-        elif (regression_method == 'ridge'):
-            # Ridge regression
-            self._regression_method = Ridge(alpha = regression_parameters)
-
-        elif (regression_method == 'lasso'):
-            # LASSO
-            self._regression_method = Lasso(alpha = regression_parameters)
-
-        else:
-            # Use canonical linear regression
-            self._regression_method = LinearRegression()
+        # Ridge regression
+        self._regression_method = Ridge(alpha = regression_parameters)
 
         # Initialize embedding method
-        if (embedding == 'identity'):
-            self._embedding_dimensions = self._n_internal_units
-        else:
-            self._embedding_dimensions = n_dim
-
-            if (embedding == 'kpca'):
-                # Kernel PCA with RBF kernel
-                self._embedding_method = KernelPCA(n_components = n_dim, kernel = 'rbf', gamma = embedding_parameters)
-
-            elif (embedding == 'pca'):
-                # PCA
-                self._embedding_method = PCA(n_components = n_dim)
-
-            else:
-                raise(ValueError, "Unknown embedding method")
+        self._embedding_dimensions = self._n_internal_units
 
         # Calculate states/embedded states.
         # Note: If the embedding is 'identity', embedded states will be equal to the states.
@@ -258,7 +211,6 @@ class ESN(object):
 def run_from_config(Xtr, Ytr, Xte, Yte, config, u, v):
     #.. Instantiate ESN object
     esn = ESN(n_internal_units = config['n_internal_units'],
-              spectral_radius = config['spectral_radius'],
               connectivity = config['connectivity'],
               input_scaling = config['input_scaling'],
               input_shift = config['input_shift'],
@@ -286,14 +238,13 @@ def run_from_config(Xtr, Ytr, Xte, Yte, config, u, v):
     return Yhat, error, weights
 
 
-def format_config(n_internal_units, spectral_radius, connectivity,
+def format_config(n_internal_units, connectivity,
                   input_scaling, input_shift, teacher_scaling, teacher_shift,
                   noise_level, n_drop, regression_method, regression_parameters,
                   embedding, n_dim, embedding_parameters):
 
     config = dict(
                 n_internal_units = n_internal_units,
-                spectral_radius = spectral_radius,
                 connectivity = connectivity,
                 input_scaling = input_scaling,
                 input_shift = input_shift,
