@@ -33,19 +33,17 @@ class ESN(object):
         self._regression_method = None
 
     #__ fit the model without return value
-    def fit(self, Xtr, Ytr, n_drop = 0, regression_method = 'ridge',
-            regression_parameters = None, u = 0.9, v = 0.5, sign_vector = None):
+    def fit(self, Xtr, Ytr, n_drop = 0, regression_parameters = None,
+            u = 0.9, v = 0.5, sign_vector = None):
 
         _ = self._fit_transform(Xtr = Xtr, Ytr = Ytr, n_drop = n_drop,
-                                  regression_method = regression_method,
                                   regression_parameters = regression_parameters,
                                   u = u, v = v, sign_vector = sign_vector)
 
         return
 
     #__ fit the model with states as return value
-    def _fit_transform(self, Xtr, Ytr, n_drop = 0, regression_method = 'ridge',
-                       regression_parameters = None,
+    def _fit_transform(self, Xtr, Ytr, n_drop = 0, regression_parameters = None,
                        u = 0.9, v = 0.5, sign_vector = None):
 
         n_data, dim_data = Xtr.shape
@@ -184,11 +182,10 @@ def run_from_config(Xtr, Ytr, Xte, Yte, config, u, v):
 
     #.. Get parameters
     n_drop = config['n_drop']
-    regression_method = config['regression_method']
     regression_parameters = config['regression_parameters']
 
     #.. Fit our network
-    esn.fit(Xtr, Ytr, n_drop = n_drop, regression_method = regression_method,
+    esn.fit(Xtr, Ytr, n_drop = n_drop,
             regression_parameters = regression_parameters,
             u = u, v = v, sign_vector = config['signs_of_input_weights'])
 
@@ -197,7 +194,7 @@ def run_from_config(Xtr, Ytr, Xte, Yte, config, u, v):
 
 
 def format_config(n_internal_units, input_scaling, input_shift, teacher_scaling, teacher_shift,
-                  noise_level, n_drop, regression_method, regression_parameters):
+                  noise_level, n_drop, regression_parameters):
 
     config = dict(
                 n_internal_units = n_internal_units,
@@ -207,7 +204,6 @@ def format_config(n_internal_units, input_scaling, input_shift, teacher_scaling,
                 teacher_shift = teacher_shift,
                 noise_level = noise_level,
                 n_drop = n_drop,
-                regression_method = regression_method,
                 regression_parameters = regression_parameters
             )
 
