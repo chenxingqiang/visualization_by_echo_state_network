@@ -97,8 +97,8 @@ by random numbers generated from normal distribution having mean 0 and variance
 We show the results of visualization of the two datasets
 for "Echo state network without dimension reduction" method.
 
-### sine function value dataset
-1. The dimension of readout weight vector is 1
+### Sine function value dataset
+* Case 1: The dimension of readout weight vector is 1
 
 When the dimension of the readout weight vector is 1,
 we have 3 clusters as in the following figure.
@@ -108,7 +108,7 @@ we have 3 clusters as in the following figure.
 Each cluster corresponds to some starting angle of
 the sine function.
 
-2. The dimension of readout weight vector is 2
+* Case 2: The dimension of readout weight vector is 2
 
 When the dimension of the readout weight vector is 2,
 we have again 3 clusters as in the following figure.
@@ -118,17 +118,17 @@ we have again 3 clusters as in the following figure.
 In this case, the clusters seem to lie on lines
 that are parallel to each other.
 
-### disturbed sine function value dataset
+### Disturbed sine function value dataset
 The following figures are the results for disturbed
 sine function value datasets. In both cases, the plots
-do not have exact clusters such as in the sine function
+do not have exact clusters such as the sine function
 value dataset.
 
-1. The dimension of readout weight vector is 1
+* Case 1: The dimension of readout weight vector is 1
 
 ![dis_sine_1dim](https://github.com/kazu-riemann/visualization_by_echo_state_network/blob/images/dis_sine_1dim.png)
 
-2. The dimension of readout weight vector is 2
+* Case 2: The dimension of readout weight vector is 2
 
 ![dis_sine_2dim](https://github.com/kazu-riemann/visualization_by_echo_state_network/blob/images/dis_sine_2dim_without_reduction.png)
 
