@@ -28,7 +28,11 @@ but only standard autoencoder.
 * Keras==2.2.4
 
 ## Usage
-First, we generate sample datasets.
+First, we make result directory.
+```console
+$ mkdir results
+```
+Next, we generate sample datasets.
 For the sine data case, we run the python script
 in the directory data/sine_data.
 ```console
@@ -41,7 +45,7 @@ in the following way on the shell script file "run.sh".
 ```console
 DATADIR=data/sine_data
 CONFIGFILE=configs/sine_config/sine_2dim_without_reduction.json
-RESULTDIR=result
+RESULTDIR=results
 ```
 To start our visualization program, excute the "run.sh" script.
 
