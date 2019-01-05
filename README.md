@@ -5,13 +5,13 @@ The echo state network architecture in [[1]] is
 "Simple Cycle Reservoir" in [[2]].
 Our code implementation of echo state network is based on [[3]].
 In [[1]], the visualization is implemented by combining
-echo state network and dimension reduction method.
+echo state network and dimensionality reduction method.
 We implemented visualization by the following 2 ways.
 
-1. Echo state network without dimension reduction
+1. Echo state network without dimensionality reduction
 2. Echo state netwrok with standard autoencoder
 
-The first method "Echo state network without dimension reduction"
+The first method "Echo state network without dimensionality reduction"
 means that the data projection of a time series is implemented by
 the readout weight vector itself.
 The second method is mentioned in [[1]].
@@ -56,22 +56,25 @@ We describe the following items in a config file.
 
 |Name of the item       |Meaning of the item                                   |
 |:----                  |:----	                                               |
-|n_internal_units       |number of internal units for ESN                      |
-|n_time_series          |number of time series in a dataset                   |
-|signs_of_input_weights |signs of the vector components of input weight for ESN|
-|ulist 			|list of absolute values of input weights for ESN      |
-|vlist 			|list of absolute values of internal weights for ESN   |
-|reduction_method 	|name of reduction method    	       		       |
-|dim_latent_space 	|number of units of hidden layer for autoencoder       |
+|n_internal_units       |Number of internal units for ESN                      |
+|n_time_series          |Number of time series in a dataset                    |
+|time_series_name	|Name of time series dataset			       |
+|signs_of_input_weights |Signs of the vector components of input weight for ESN|
+|ulist 			|List of absolute values of input weights for ESN      |
+|vlist 			|List of absolute values of internal weights for ESN   |
+|noise_level		|Strength of noise added to internal state of ESN      |
+|dim_latent_space 	|Number of units of hidden layer for autoencoder       |
+|reduction_method 	|Name of dimensionality reduction method  	       |
 
-### Note
+### Notes
 * "n_time_series" means the number of .dat file in a dataset directory.
 In the case of sine function value data, "n_time_series" is 80.
+* "time_series_name" will be used in the names of result files.
 * "signs_of_input_weights" is specified by a vector whose all components
 have absolute value 1.0.
 * Visualization needs a fixed pair (u, v) for a dataset.
  Our program will find the optimal pair (u, v) among "ulist" and "vlist".
-* If we use "ESN without dimension reduction" method for the visualization,
+* If we use "ESN without dimensionality reduction" method for the visualization,
 set "reduction_method" to "without_reduction".
 If we use "ESN with standard autoencoder" method, set "reduction_method"
 to "standard_AE".
@@ -95,7 +98,7 @@ by random numbers generated from normal distribution having mean 0 and variance
 
 ## Results for the two datasets
 We show the results of visualization of the two datasets
-for "Echo state network without dimension reduction" method.
+for "Echo state network without dimensionality reduction" method.
 
 ### Sine function value dataset
 * Case 1: The dimension of readout weight vector is 1
@@ -121,7 +124,7 @@ that are parallel to each other.
 ### Disturbed sine function value dataset
 The following figures are the results for disturbed
 sine function value datasets. In both cases, the plots
-do not have exact clusters such as the sine function
+do not have clear clusters such as the sine function
 value dataset.
 
 * Case 1: The dimension of readout weight vector is 1
@@ -131,6 +134,21 @@ value dataset.
 * Case 2: The dimension of readout weight vector is 2
 
 ![dis_sine_2dim](https://github.com/kazu-riemann/visualization_by_echo_state_network/blob/images/dis_sine_2dim_without_reduction.png)
+
+### Notes
+The parameter "noise_level" in a config file means the strength of noise
+added to internal state of ESN. See [[3]] for more details.
+We set 0.01 in the above results. we show some results setting "noise_level"
+to 0.0 for sine function dataset without dimensionality reduction method.
+We have 4 clusters more clearly.
+
+* Case 1: The dimension of readout weight vector is 1
+
+![sine_1dim_noiseless](https://github.com/kazu-riemann/visualization_by_echo_state_network/blob/images/sine_1dim_noiseless.png)
+
+* Case 2: The dimension of readout weight vector is 2
+
+![sine_2dim_noiseless](https://github.com/kazu-riemann/visualization_by_echo_state_network/blob/images/sine_2dim_without_reduction_noiseless.png)
 
 ## References
 [[1]] N. Gianniotis, S. D. Kugler, P. Tino, K. L. Polsterer,
